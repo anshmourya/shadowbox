@@ -1,49 +1,49 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useAccount } from "@/hooks/useAccount";
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { useAccount } from '@/hooks/useAccount'
 
 const PrivatePage = (Component) => {
-  const { getUser } = useAccount();
+  const { isLogged } = useAccount()
 
   return function PrivatePageComponent(props) {
-    const router = useRouter();
-    const [isLoading, setIsLoading] = useState(true);
-    const [user, setUser] = useState(null);
-    const [error, setError] = useState(null);
+    const router = useRouter()
+    const [isLoading, setIsLoading] = useState(true)
+    const [user, setUser] = useState(null)
+    const [error, setError] = useState(null)
 
     useEffect(() => {
       const fetchUser = async () => {
         try {
-          const userData = await getUser();
-          setUser(userData);
+          const userData = await isLogged()
+          setUser(userData)
           if (!userData) {
-            router.push("/signin");
+            router.push('/signin')
           }
         } catch (error) {
-          setError(error);
-          router.push("/signin");
+          setError(error)
+          router.push('/signin')
         } finally {
-          setIsLoading(false);
+          setIsLoading(false)
         }
-      };
+      }
 
-      fetchUser();
-    }, [router]);
+      fetchUser()
+    }, [router])
 
     if (isLoading) {
-      return <div>Loading...</div>;
+      return <div>Loading...</div>
     }
 
     if (error) {
-      return <div>Error: {error.message}</div>;
+      return <div>Error: {error.message}</div>
     }
 
     if (!user) {
-      return null;
+      return null
     }
 
-    return <Component {...props} />;
-  };
-};
+    return <Component {...props} />
+  }
+}
 
-export default PrivatePage;
+export default PrivatePage

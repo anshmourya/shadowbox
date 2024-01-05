@@ -1,24 +1,22 @@
-import React from "react";
-import { Client, Account, ID } from "appwrite";
+import { Client, Account, ID } from 'appwrite'
 
 export const useAccount = () => {
-  const client = new Client();
-  const account = new Account(client);
+  const client = new Client()
+  const account = new Account(client)
 
   client
-    .setEndpoint("https://cloud.appwrite.io/v1")
-    .setProject(process.env.NEXT_PUBLIC_PROJECT_KEY);
+    .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_URL)
+    .setProject(process.env.NEXT_PUBLIC_PROJECT_KEY)
 
   const createSession = async (email, password) => {
     try {
-      const sessionCreation = await account.createEmailSession(email, password);
-      console.log(sessionCreation);
-      return sessionCreation;
+      const sessionCreation = await account.createEmailSession(email, password)
+      return sessionCreation
     } catch (error) {
-      console.error(error);
-      throw error;
+      console.error(error)
+      throw error
     }
-  };
+  }
 
   const createAccount = async (userData) => {
     try {
@@ -26,31 +24,31 @@ export const useAccount = () => {
         ID.unique(),
         userData.email,
         userData.password,
-        userData.name
-      );
-      console.log(accountCreation);
-      return accountCreation;
+        userData.name,
+      )
+      console.log(accountCreation)
+      return accountCreation
     } catch (error) {
-      console.error(error);
-      throw error;
+      console.error(error)
+      throw error
     }
-  };
+  }
   const getCurrentUser = async () => {
     try {
-      const user = await account.get();
-      return user;
+      const user = await account.get()
+      return user
     } catch (error) {
-      console.error(error);
-      throw error;
+      console.error(error)
+      throw error
     }
-  };
+  }
   const isLogged = async () => {
     try {
-      const data = await getCurrentUser();
-      return Boolean(data);
+      const data = await getCurrentUser()
+      return Boolean(data)
     } catch (error) {
-      return false;
+      return false
     }
-  };
-  return { createAccount, createSession, getUser };
-};
+  }
+  return { createAccount, createSession, isLogged, getCurrentUser }
+}
