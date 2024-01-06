@@ -1,6 +1,8 @@
 import { Client, Account, ID } from 'appwrite'
-
+import useUser from './useUser'
+import { toast } from 'sonner'
 export const useAccount = () => {
+  const { addUser } = useUser()
   const client = new Client()
   const account = new Account(client)
 
@@ -8,9 +10,12 @@ export const useAccount = () => {
     .setEndpoint(process.env.NEXT_PUBLIC_APPWRITE_URL)
     .setProject(process.env.NEXT_PUBLIC_PROJECT_KEY)
 
-  const createSession = async (email, password) => {
+  const createSession = async (name, password) => {
     try {
-      const sessionCreation = await account.createEmailSession(email, password)
+      const sessionCreation = await account.createEmailSession(
+        name.concat('@gmail.com'),
+        password,
+      )
       return sessionCreation
     } catch (error) {
       console.error(error)
@@ -22,11 +27,15 @@ export const useAccount = () => {
     try {
       const accountCreation = await account.create(
         ID.unique(),
-        userData.email,
+        userData.name.concat('@gmail.com'), //make name a account to keep user to give his email address.
         userData.password,
         userData.name,
       )
-      console.log(accountCreation)
+      //add user to database after creating the account
+      if (accountCreation) {
+        await addUser(accountCreation.$id, { name: userData.name })
+        toast.success('account created successfully')
+      }
       return accountCreation
     } catch (error) {
       console.error(error)

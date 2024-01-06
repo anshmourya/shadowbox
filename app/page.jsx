@@ -10,9 +10,9 @@ const Home = () => {
       <button
         onClick={() =>
           createPoll({
-            title: 'ansh mourya',
+            question: 'test2',
             description: 'mourya',
-            option: ['one', 'two', 'three'],
+            options: [{ label: 'one' }, { label: 'two' }, { label: 'three' }],
           })
         }
       >
@@ -21,7 +21,20 @@ const Home = () => {
       <br />
       <button onClick={getPolls}>get polls</button>
       <br />
-      <button onClick={updatePoll}>update polls</button>
+      <button
+        onClick={() =>
+          updatePoll(
+            {
+              // question: 'ansh mourya',
+              // description: 'mourya',
+              label: 'four',
+            },
+            '6598e24f70d496c9f1e7',
+          )
+        }
+      >
+        update polls
+      </button>
     </>
   )
 }

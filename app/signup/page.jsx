@@ -19,7 +19,6 @@ const Signup = () => {
   })
 
   const onSubmit = (data) => {
-    console.log(data)
     createAccount(data)
   }
   return (
@@ -30,21 +29,6 @@ const Signup = () => {
           onSubmit={handleSubmit(onSubmit)}
         >
           <H1 className="text-center">Signup</H1>
-          <div className="my-10">
-            <Input
-              placeholder="Please enter your email"
-              {...register('email')}
-            />
-            <p
-              className={cn(
-                errors.name ? 'visible ' : 'hidden',
-                'text-red-500 mt-1',
-              )}
-            >
-              {errors.email?.message || 'nothing'}
-            </p>
-          </div>
-
           <div className="my-10">
             <Input
               placeholder="Enter your anynomous name :)"

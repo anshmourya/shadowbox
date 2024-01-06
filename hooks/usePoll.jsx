@@ -2,9 +2,9 @@ import { Client, Databases, ID, Query } from 'appwrite'
 import useAuth from '@/context/Auth'
 const usePoll = () => {
   const { user } = useAuth()
-
   const databaseId = process.env.NEXT_PUBLIC_DATABASE_ID
   const pollCollection = process.env.NEXT_PUBLIC_POLL_ID
+  const optionCollection = process.env.NEXT_PUBLIC_OPTION_ID
 
   const client = new Client()
   const databases = new Databases(client)
@@ -19,7 +19,7 @@ const usePoll = () => {
         pollCollection,
         ID.unique(),
         {
-          userId: user.$id,
+          user: user.$id,
           ...pollData,
         },
       )
@@ -45,13 +45,13 @@ const usePoll = () => {
 
   const updatePoll = async (pollData, pollId) => {
     try {
-      const response = await databases.updateDocument(
-        databaseId,
-        pollCollection,
-        pollId,
-        pollData,
-      )
-      console.log(response)
+    const response = await databases.updateDocument(
+      databaseId,
+      pollCollection,
+      pollId,
+      pollData,
+    )
+    console.log(response)
     } catch (error) {
       console.error(error)
       throw error
