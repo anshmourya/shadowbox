@@ -1,10 +1,11 @@
 import { Client, Databases, ID, Query } from 'appwrite'
 import useAuth from '@/context/Auth'
+import { toast } from 'sonner'
 const usePoll = () => {
   const { user } = useAuth()
-
   const databaseId = process.env.NEXT_PUBLIC_DATABASE_ID
   const pollCollection = process.env.NEXT_PUBLIC_POLL_ID
+  const optionCollection = process.env.NEXT_PUBLIC_OPTION_ID
 
   const client = new Client()
   const databases = new Databases(client)
@@ -19,10 +20,11 @@ const usePoll = () => {
         pollCollection,
         ID.unique(),
         {
-          userId: user.$id,
+          user: user.$id,
           ...pollData,
         },
       )
+      toast.success('new poll created successfully')
       console.log(newPoll)
       return newPoll
     } catch (error) {

@@ -1,8 +1,8 @@
 'use client'
+import React from 'react'
 import { H1 } from '@/components/typograph'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import React, { useContext, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { signInSchema } from '@/constant/validate'
@@ -17,7 +17,7 @@ const Signin = () => {
   const { user } = useAuth()
   const { createSession } = useAccount()
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -26,7 +26,7 @@ const Signin = () => {
 
   const onSubmit = async (data) => {
     if (!user) {
-      await createSession(data.email, data.password)
+      await createSession(data.name, data.password)
       router.push('/')
     } else {
       toast.error("You're already logged in.", {
@@ -47,8 +47,9 @@ const Signin = () => {
           <H1 className="text-center">SignIn</H1>
           <div className="my-10">
             <Input
-              placeholder="Please enter your email"
-              {...register('email')}
+              placeholder="Please enter your userName"
+              control={control}
+              name="name"
             />
             <p
               className={cn(
@@ -56,7 +57,7 @@ const Signin = () => {
                 'text-red-500 mt-1',
               )}
             >
-              {errors.email?.message || 'nothing'}
+              {errors.name?.message || 'nothing'}
             </p>
           </div>
 
@@ -64,7 +65,8 @@ const Signin = () => {
             <Input
               placeholder="Enter your password..."
               type="password"
-              {...register('password')}
+              name="password"
+              control={control}
             />
             <p
               className={cn(

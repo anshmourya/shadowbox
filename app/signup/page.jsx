@@ -11,7 +11,7 @@ import { useAccount } from '@/hooks/useAccount'
 const Signup = () => {
   const { createAccount } = useAccount()
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -19,7 +19,6 @@ const Signup = () => {
   })
 
   const onSubmit = (data) => {
-    console.log(data)
     createAccount(data)
   }
   return (
@@ -32,23 +31,9 @@ const Signup = () => {
           <H1 className="text-center">Signup</H1>
           <div className="my-10">
             <Input
-              placeholder="Please enter your email"
-              {...register('email')}
-            />
-            <p
-              className={cn(
-                errors.name ? 'visible ' : 'hidden',
-                'text-red-500 mt-1',
-              )}
-            >
-              {errors.email?.message || 'nothing'}
-            </p>
-          </div>
-
-          <div className="my-10">
-            <Input
               placeholder="Enter your anynomous name :)"
-              {...register('name')}
+              control={control}
+              name="name"
             />
             <p
               className={cn(
@@ -64,7 +49,8 @@ const Signup = () => {
             <Input
               placeholder="Put strong password to keep you safe..."
               type="password"
-              {...register('password')}
+              name="password"
+              control={control}
             />
             <p
               className={cn(
