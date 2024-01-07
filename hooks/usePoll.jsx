@@ -1,5 +1,6 @@
 import { Client, Databases, ID, Query } from 'appwrite'
 import useAuth from '@/context/Auth'
+import { toast } from 'sonner'
 const usePoll = () => {
   const { user } = useAuth()
   const databaseId = process.env.NEXT_PUBLIC_DATABASE_ID
@@ -23,6 +24,7 @@ const usePoll = () => {
           ...pollData,
         },
       )
+      toast.success('new poll created successfully')
       console.log(newPoll)
       return newPoll
     } catch (error) {
@@ -45,13 +47,13 @@ const usePoll = () => {
 
   const updatePoll = async (pollData, pollId) => {
     try {
-    const response = await databases.updateDocument(
-      databaseId,
-      pollCollection,
-      pollId,
-      pollData,
-    )
-    console.log(response)
+      const response = await databases.updateDocument(
+        databaseId,
+        pollCollection,
+        pollId,
+        pollData,
+      )
+      console.log(response)
     } catch (error) {
       console.error(error)
       throw error

@@ -17,7 +17,7 @@ const Signin = () => {
   const { user } = useAuth()
   const { createSession } = useAccount()
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm({
@@ -48,7 +48,8 @@ const Signin = () => {
           <div className="my-10">
             <Input
               placeholder="Please enter your userName"
-              {...register('name')}
+              control={control}
+              name="name"
             />
             <p
               className={cn(
@@ -56,7 +57,7 @@ const Signin = () => {
                 'text-red-500 mt-1',
               )}
             >
-              {errors.email?.message || 'nothing'}
+              {errors.name?.message || 'nothing'}
             </p>
           </div>
 
@@ -64,7 +65,8 @@ const Signin = () => {
             <Input
               placeholder="Enter your password..."
               type="password"
-              {...register('password')}
+              name="password"
+              control={control}
             />
             <p
               className={cn(
