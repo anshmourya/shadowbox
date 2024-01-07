@@ -1,8 +1,9 @@
 'use client'
+import React from 'react'
+import Navbar from '@/components/navbar'
 import { IoMdInformationCircleOutline } from 'react-icons/io'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
-import React, { useEffect } from 'react'
 import Options from '@/components/options'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -10,12 +11,12 @@ import { Button } from '@/components/ui/button'
 import { pollSchema } from '@/constant/validate'
 import usePoll from '@/hooks/usePoll'
 import { cn } from '@/lib/utils'
+import PrivatePage from '@/components/PrivatePage'
 const Poll = () => {
   const { createPoll } = usePoll()
   const {
     control,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -30,6 +31,7 @@ const Poll = () => {
 
   return (
     <>
+      <Navbar />
       <form
         className="container py-4 max-w-[1000px]"
         onSubmit={handleSubmit(onSubmit)}
@@ -79,4 +81,4 @@ const Poll = () => {
   )
 }
 
-export default Poll
+export default PrivatePage(Poll)
