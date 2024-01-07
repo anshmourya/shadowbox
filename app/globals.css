@@ -75,3 +75,10 @@
     @apply bg-background text-foreground;
   }
 }
+
+.logo {
+  cursor: pointer;
+  font-weight: 900;
+  font-size: 20px;
+  text-shadow: 2px 3px #d1c3c3;
+}

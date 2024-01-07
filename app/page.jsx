@@ -1,5 +1,6 @@
 'use client'
 import PrivatePage from '@/components/PrivatePage'
+import Navbar from '@/components/navbar'
 import usePoll from '@/hooks/usePoll'
 import React from 'react'
 
@@ -7,6 +8,7 @@ const Home = () => {
   const { getPolls, createPoll, updatePoll } = usePoll()
   return (
     <>
+      <Navbar />
       <button
         onClick={() =>
           createPoll({

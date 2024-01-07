@@ -1,6 +1,8 @@
+'use client'
 import { Client, Account, ID } from 'appwrite'
 import useUser from './useUser'
 import { toast } from 'sonner'
+
 export const useAccount = () => {
   const { addUser } = useUser()
   const client = new Client()
@@ -59,5 +61,16 @@ export const useAccount = () => {
       return false
     }
   }
-  return { createAccount, createSession, isLogged, getCurrentUser }
+  const logout = async () => {
+    try {
+      const deleteSession = await account.deleteSession('current')
+      toast.success('you have been logged out.')
+      console.log(deleteSession)
+      return deleteSession
+    } catch (error) {
+      console.error(error)
+      throw error
+    }
+  }
+  return { createAccount, createSession, isLogged, getCurrentUser, logout }
 }
