@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAccount } from '@/hooks/useAccount'
+import PageLoader from '../loader/PageLoader'
 
 const PrivatePage = (Component) => {
   const { isLogged } = useAccount()
@@ -31,7 +32,7 @@ const PrivatePage = (Component) => {
     }, [router])
 
     if (isLoading) {
-      return <div>Loading...</div>
+      return <PageLoader />
     }
 
     if (error) {
