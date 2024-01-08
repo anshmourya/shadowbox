@@ -1,10 +1,11 @@
 'use client'
 import React from 'react'
-import { H4, InlineCode, P } from '../typograph'
+import { H4, InlineCode } from '../typograph'
 import ReadmoreText from '../readmore'
 import { useQuery } from '@tanstack/react-query'
 import usePoll from '@/hooks/usePoll'
 import PageLoader from '../loader/PageLoader'
+import { format } from 'date-fns'
 const PollList = () => {
   const { getAllPolls } = usePoll()
   const {
@@ -33,12 +34,13 @@ const PollList = () => {
             <InlineCode className="cursor-pointer">
               @{poll.user.name}
             </InlineCode>{' '}
-            28 Aug
+            {format(new Date(), 'MMM, dd')}
           </span>
           {poll.description && (
             <ReadmoreText text={poll.description} maxLength={100} />
           )}
           {/* options */}
+
           <ul className="my-4 [&>li]:mt-6">
             {poll.options.map((option) => (
               <li

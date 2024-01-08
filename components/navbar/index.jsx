@@ -11,7 +11,6 @@ import Link from 'next/link'
 import Logout from '../logout'
 import { Button } from '../ui/button'
 import { useRouter } from 'next/navigation'
-
 const Navbar = () => {
   const router = useRouter()
   return (
@@ -20,7 +19,10 @@ const Navbar = () => {
         <div className="logo">SHADOWBOX</div>
       </Link>
       <div>
-        <Button className="mx-4" onClick={() => router.push('/poll')}>
+        <Button
+          className="mx-4 max-md:hidden"
+          onClick={() => router.push('/poll')}
+        >
           Create poll
         </Button>
         <Popover>

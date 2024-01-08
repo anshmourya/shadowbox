@@ -4,6 +4,8 @@ const SHOW_MORE = ' show More...'
 const SHOW_LESS = ' show Less'
 const ReadmoreText = ({ text, maxLength }) => {
   const [showMore, setShowMore] = useState(false)
+
+  if (text.length <= maxLength) return text
   return (
     <P>
       {showMore ? text : `${text.substring(0, maxLength)}`}
