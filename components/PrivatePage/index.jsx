@@ -1,48 +1,30 @@
-import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAccount } from '@/hooks/useAccount'
 import PageLoader from '../loader/PageLoader'
-
+import { useQuery } from '@tanstack/react-query'
 const PrivatePage = (Component) => {
   const { isLogged } = useAccount()
 
   return function PrivatePageComponent(props) {
     const router = useRouter()
-    const [isLoading, setIsLoading] = useState(true)
-    const [user, setUser] = useState(null)
-    const [error, setError] = useState(null)
+    const {
+      data: user,
+      isError,
+      isLoading,
+      error,
+    } = useQuery({
+      queryKey: 'user',
+      queryFn: isLogged,
+    })
 
-    useEffect(() => {
-      const fetchUser = async () => {
-        try {
-          const userData = await isLogged()
-          setUser(userData)
-          if (!userData) {
-            router.push('/signin')
-          }
-        } catch (error) {
-          setError(error)
-          router.push('/signin')
-        } finally {
-          setIsLoading(false)
-        }
-      }
+    if (isLoading) return <PageLoader />
 
-      fetchUser()
-    }, [router])
-
-    if (isLoading) {
-      return <PageLoader />
+    if (isError) {
+      router.push('/signin')
+      throw error
     }
 
-    if (error) {
-      return <div>Error: {error.message}</div>
-    }
-
-    if (!user) {
-      return null
-    }
-
+    if (!user) router.push('/signin')
     return <Component {...props} />
   }
 }
