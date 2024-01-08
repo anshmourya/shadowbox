@@ -32,13 +32,25 @@ const usePoll = () => {
     }
   }
 
-  const getPolls = async () => {
+  const getAllPolls = async () => {
+    try {
+      const polls = await databases.listDocuments(databaseId, pollCollection, [
+        Query.limit(25),
+        Query.offset(0),
+      ])
+      return polls.documents
+    } catch (error) {
+      console.error(error)
+      throw error
+    }
+  }
+
+  const getUserPoll = async () => {
     try {
       const polls = await databases.listDocuments(databaseId, pollCollection, [
         Query.equal('userId', user.$id),
       ])
-      console.log(polls)
-      return polls
+      return polls.documents
     } catch (error) {
       console.error(error)
       throw error
@@ -75,7 +87,7 @@ const usePoll = () => {
     }
   }
 
-  return { createPoll, getPolls, deletePoll, updatePoll }
+  return { createPoll, getUserPoll, deletePoll, updatePoll, getAllPolls }
 }
 
 export default usePoll

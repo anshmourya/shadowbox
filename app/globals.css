@@ -82,3 +82,7 @@
   font-size: 20px;
   text-shadow: 2px 3px #d1c3c3;
 }
+
+.option-box {
+  box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
+}
