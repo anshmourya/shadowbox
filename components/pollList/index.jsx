@@ -2,12 +2,22 @@
 import React from 'react'
 import { H4, InlineCode } from '../typograph'
 import ReadmoreText from '../readmore'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useMutation } from '@tanstack/react-query'
 import usePoll from '@/hooks/usePoll'
 import PageLoader from '../loader/PageLoader'
 import { format } from 'date-fns'
+import useVote from '@/hooks/useVote'
 const PollList = () => {
   const { getAllPolls } = usePoll()
+  const { addVote } = useVote()
+
+  const { mutate: vote } = useMutation({
+    mutationKey: 'add vote',
+    mutationFn: addVote,
+    onSuccess: () => console.log('success'),
+    // onError: (error) => console.error('error', error),
+  })
+
   const {
     data: pollData,
     isLoading,
@@ -42,10 +52,11 @@ const PollList = () => {
           {/* options */}
 
           <ul className="my-4 [&>li]:mt-6">
-            {poll.options.map((option) => (
+            {poll.option.map((option) => (
               <li
                 className="relative border rounded-lg option-box"
-                key={option.id}
+                key={option.$id}
+                onClick={() => addVote({ poll: poll.$id, option: option.$id })}
               >
                 <p className="flex items-center justify-between px-4 py-2 capitalize rounded-md cursor-pointer option-box md:py-3">
                   {option.label}

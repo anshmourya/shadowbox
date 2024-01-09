@@ -5,7 +5,6 @@ const usePoll = () => {
   const { user } = useAuth()
   const databaseId = process.env.NEXT_PUBLIC_DATABASE_ID
   const pollCollection = process.env.NEXT_PUBLIC_POLL_ID
-  const optionCollection = process.env.NEXT_PUBLIC_OPTION_ID
 
   const client = new Client()
   const databases = new Databases(client)
