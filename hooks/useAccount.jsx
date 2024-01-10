@@ -34,6 +34,7 @@ export const useAccount = () => {
         userData.name,
       )
       //add user to database after creating the account
+      console.log(accountCreation)
       if (accountCreation) {
         await addUser(accountCreation.$id, { name: userData.name })
         toast.success('account created successfully')

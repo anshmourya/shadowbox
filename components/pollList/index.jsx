@@ -7,15 +7,17 @@ import usePoll from '@/hooks/usePoll'
 import PageLoader from '../loader/PageLoader'
 import { format } from 'date-fns'
 import useVote from '@/hooks/useVote'
+import useAuth from '@/context/Auth'
 const PollList = () => {
   const { getAllPolls } = usePoll()
   const { addVote } = useVote()
+  const { user } = useAuth()
 
   const { mutate: vote } = useMutation({
-    mutationKey: 'add vote',
+    mutationKey: ['add vote'],
     mutationFn: addVote,
     onSuccess: () => console.log('success'),
-    // onError: (error) => console.error('error', error),
+    onError: (error) => console.error('error', error),
   })
 
   const {
@@ -24,7 +26,7 @@ const PollList = () => {
     error,
     isError,
   } = useQuery({
-    queryKey: 'polls',
+    queryKey: ['polls'],
     queryFn: getAllPolls,
   })
 
@@ -56,7 +58,7 @@ const PollList = () => {
               <li
                 className="relative border rounded-lg option-box"
                 key={option.$id}
-                onClick={() => addVote({ poll: poll.$id, option: option.$id })}
+                onClick={() => vote({ poll: poll.$id, option: option.$id })}
               >
                 <p className="flex items-center justify-between px-4 py-2 capitalize rounded-md cursor-pointer option-box md:py-3">
                   {option.label}

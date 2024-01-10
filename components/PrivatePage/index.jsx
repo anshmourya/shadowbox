@@ -13,7 +13,7 @@ const PrivatePage = (Component) => {
       isLoading,
       error,
     } = useQuery({
-      queryKey: 'user',
+      queryKey: ['loggedInStatus'],
       queryFn: isLogged,
     })
 
