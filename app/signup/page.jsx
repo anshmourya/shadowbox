@@ -16,6 +16,10 @@ const Signup = () => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(signUpSchema),
+    defaultValues: {
+      name: '',
+      password: '',
+    },
   })
 
   const onSubmit = (data) => {

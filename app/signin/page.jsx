@@ -22,6 +22,10 @@ const Signin = () => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(signInSchema),
+    defaultValues: {
+      name: '',
+      password: '',
+    },
   })
 
   const onSubmit = async (data) => {

@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils'
 const Options = ({ control, errors }) => {
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'options',
+    name: 'option',
   })
 
   const appendOptions = () => {
@@ -36,7 +36,7 @@ const Options = ({ control, errors }) => {
             <div key={field.id} className="relative">
               <Input
                 control={control}
-                name={`options[${index}].label`}
+                name={`option[${index}].label`}
                 placeholder={`Option ${index + 1}`}
                 className={error ? 'border-red-500' : ''}
               />
