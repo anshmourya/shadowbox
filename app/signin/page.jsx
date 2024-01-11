@@ -14,7 +14,7 @@ import { toast } from 'sonner'
 
 const Signin = () => {
   const router = useRouter()
-  const { user } = useAuth()
+  const { user, fetchUser } = useAuth()
   const { createSession } = useAccount()
   const {
     control,
@@ -22,13 +22,19 @@ const Signin = () => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(signInSchema),
+    defaultValues: {
+      name: '',
+      password: '',
+    },
   })
 
   const onSubmit = async (data) => {
     if (!user) {
       await createSession(data.name, data.password)
+      fetchUser()
       router.push('/')
     } else {
+      console.log('this is user', user)
       toast.error("You're already logged in.", {
         action: {
           label: 'go home',

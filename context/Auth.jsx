@@ -1,27 +1,31 @@
 'use client'
+import { createContext, useContext } from 'react'
+import { useQuery } from '@tanstack/react-query'
 import { useAccount } from '@/hooks/useAccount'
-import { createContext, useState, useEffect, useContext } from 'react'
 
 export const Auth = createContext()
 
 export const AuthProvider = ({ children }) => {
   const { getCurrentUser } = useAccount()
-  const [user, setUser] = useState(null)
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const userData = await getCurrentUser()
-        setUser(userData)
-      } catch (error) {
-        console.error(error)
-      }
-    }
+  const {
+    isLoading,
+    error,
+    data: user,
+    refetch: fetchUser,
+  } = useQuery({
+    queryKey: ['user'],
+    queryFn: getCurrentUser,
+    staleTime: Infinity,
+    cacheTime: 0,
+    enabled: false,
+  })
 
-    fetchUser()
-  }, [])
-
-  return <Auth.Provider value={{ user, setUser }}>{children}</Auth.Provider>
+  return (
+    <Auth.Provider value={{ isLoading, error, user, fetchUser }}>
+      {children}
+    </Auth.Provider>
+  )
 }
 
 const useAuth = () => useContext(Auth)
