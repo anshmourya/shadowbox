@@ -12,21 +12,35 @@ import { pollSchema } from '@/constant/validate'
 import usePoll from '@/hooks/usePoll'
 import { cn } from '@/lib/utils'
 import PrivatePage from '@/components/PrivatePage'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
+import { useQueryClient } from '@tanstack/react-query'
 const Poll = () => {
+  const queryClient = useQueryClient()
+  const router = useRouter()
   const { createPoll } = usePoll()
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
-      options: [{ label: '' }, { label: '' }],
+      option: [{ label: '' }, { label: '' }],
     },
     resolver: yupResolver(pollSchema),
   })
 
-  const onSubmit = (data) => {
-    createPoll(data)
+  const onSubmit = async (data) => {
+    const newPoll = await createPoll(data)
+    if (newPoll) {
+      reset()
+      toast.success('new poll created successfully')
+      queryClient.invalidateQueries({ queryKey: ['polls'] })
+      router.push('/')
+    } else {
+      toast.error('something went wrong, please try again')
+    }
   }
 
   return (

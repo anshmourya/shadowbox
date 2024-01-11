@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { IoIosLogOut } from 'react-icons/io'
 import { useAccount } from '@/hooks/useAccount'
 import { useRouter } from 'next/navigation'
