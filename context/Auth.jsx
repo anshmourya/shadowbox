@@ -16,9 +16,8 @@ export const AuthProvider = ({ children }) => {
   } = useQuery({
     queryKey: ['user'],
     queryFn: getCurrentUser,
-    staleTime: Infinity,
-    cacheTime: 0,
-    enabled: false,
+    cacheTime: Infinity,
+    refetchOnWindowFocus: false,  
   })
 
   return (

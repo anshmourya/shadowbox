@@ -15,8 +15,7 @@ const PrivatePage = (Component) => {
     } = useQuery({
       queryKey: ['loggedInStatus'],
       queryFn: isLogged,
-      staleTime: Infinity,
-      cacheTime: 0,
+      cacheTime: Infinity,
     })
 
     if (isLoading) return <PageLoader />

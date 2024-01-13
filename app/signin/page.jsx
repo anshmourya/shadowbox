@@ -86,6 +86,14 @@ const Signin = () => {
           <div className="flex justify-center my-10">
             <Button>Let&apos;s goo!!!</Button>
           </div>
+          <Button
+            variant="link"
+            className="float-right"
+            type="button"
+            onClick={() => router.push('/signup')}
+          >
+            create your account..
+          </Button>
         </form>
       </div>
     </>

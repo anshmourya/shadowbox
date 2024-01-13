@@ -2,8 +2,10 @@
 import { Client, Account, ID } from 'appwrite'
 import useUser from './useUser'
 import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 export const useAccount = () => {
+  const router = useRouter()
   const { addUser } = useUser()
   const client = new Client()
   const account = new Account(client)
@@ -34,13 +36,14 @@ export const useAccount = () => {
         userData.name,
       )
       //add user to database after creating the account
-      console.log(accountCreation)
       if (accountCreation) {
         await addUser(accountCreation.$id, { name: userData.name })
         toast.success('account created successfully')
+        router.push('/signin')
       }
       return accountCreation
     } catch (error) {
+      router.push('/signin')
       console.error(error)
       throw error
     }
