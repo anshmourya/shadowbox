@@ -10,10 +10,12 @@ import useVote from '@/hooks/useVote'
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
 import useAuth from '@/context/Auth'
+import useUser from '@/hooks/useUser'
 const PollList = () => {
   const { user } = useAuth()
   const { getAllPolls } = usePoll()
   const { addVote, getCurrentUserVotes } = useVote()
+  const { addUser } = useUser()
   const queryClient = useQueryClient()
   const { mutate: vote } = useMutation({
     mutationKey: ['add vote'],

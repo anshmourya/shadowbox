@@ -2,10 +2,8 @@
 import { Client, Account, ID } from 'appwrite'
 import useUser from './useUser'
 import { toast } from 'sonner'
-import { useRouter } from 'next/navigation'
 
 export const useAccount = () => {
-  const router = useRouter()
   const { addUser } = useUser()
   const client = new Client()
   const account = new Account(client)
@@ -35,15 +33,11 @@ export const useAccount = () => {
         userData.password,
         userData.name,
       )
-      //add user to database after creating the account
-      if (accountCreation) {
-        await addUser(accountCreation.$id, { name: userData.name })
-        toast.success('account created successfully')
-        router.push('/signin')
-      }
+      // add user to database after creating the account
+      // TODO: even though the data is stored in the database it still returns the error. fix this.
+      await addUser(accountCreation.$id, { name: userData.name })
       return accountCreation
     } catch (error) {
-      router.push('/signin')
       console.error(error)
       throw error
     }
@@ -67,10 +61,9 @@ export const useAccount = () => {
   }
   const logout = async () => {
     try {
-      const deleteSession = await account.deleteSession('current')
+      await account.deleteSession('current')
       toast.success('you have been logged out.')
-      console.log(deleteSession)
-      return deleteSession
+      return true
     } catch (error) {
       console.error(error)
       throw error

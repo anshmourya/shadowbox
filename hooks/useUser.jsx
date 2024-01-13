@@ -1,4 +1,5 @@
 import { Client, Databases, ID, Query } from 'appwrite'
+import { isResSent } from 'next/dist/shared/lib/utils'
 const useUser = () => {
   const databaseId = process.env.NEXT_PUBLIC_DATABASE_ID
   const userCollection = process.env.NEXT_PUBLIC_USER_ID
@@ -10,14 +11,18 @@ const useUser = () => {
     .setProject(process.env.NEXT_PUBLIC_PROJECT_KEY)
 
   const addUser = async (userId, userData) => {
-    console.log(userId, userData)
-    const newUser = await databases.createDocument(
-      databaseId,
-      userCollection,
-      userId,
-      userData,
-    )
-    return newUser
+    try {
+      await databases.createDocument(
+        databaseId,
+        userCollection,
+        userId,
+        userData,
+      )
+      return true
+    } catch (error) {
+      console.error(error)
+      return null
+    }
   }
 
   return { addUser }

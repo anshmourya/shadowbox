@@ -8,7 +8,9 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { signUpSchema } from '@/constant/validate'
 import { cn } from '@/lib/utils'
 import { useAccount } from '@/hooks/useAccount'
+import { useRouter } from 'next/navigation'
 const Signup = () => {
+  const router = useRouter()
   const { createAccount } = useAccount()
   const {
     control,
@@ -22,8 +24,12 @@ const Signup = () => {
     },
   })
 
-  const onSubmit = (data) => {
-    createAccount(data)
+  const onSubmit = async (data) => {
+    await createAccount(data)
+    toast.success(
+      'account created successfully. Please signin to use the site.',
+    )
+    router.push('/signin')
   }
   return (
     <>
