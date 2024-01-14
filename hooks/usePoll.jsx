@@ -24,14 +24,20 @@ const usePoll = () => {
       return false
     }
   }
-  // $createdAt
-  const getAllPolls = async () => {
+
+  const getAllPolls = async ({ pageParam }) => {
     try {
-      const polls = await databases.listDocuments(databaseId, pollCollection, [
-        Query.limit(25),
-        Query.offset(0),
-        Query.orderDesc('$createdAt'),
-      ])
+      const queryConditions = [Query.limit(25), Query.orderDesc('$createdAt')]
+
+      if (pageParam) {
+        queryConditions.push(Query.cursorAfter(pageParam))
+      }
+
+      const polls = await databases.listDocuments(
+        databaseId,
+        pollCollection,
+        queryConditions,
+      )
       return polls.documents
     } catch (error) {
       console.error(error)
@@ -59,7 +65,6 @@ const usePoll = () => {
         pollId,
         pollData,
       )
-      console.log(response)
     } catch (error) {
       console.error(error)
       throw error
@@ -73,7 +78,6 @@ const usePoll = () => {
         pollCollection,
         pollId,
       )
-      console.log(response)
       return response
     } catch (error) {
       console.error(error)

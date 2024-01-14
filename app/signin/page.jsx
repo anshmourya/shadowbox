@@ -34,7 +34,6 @@ const Signin = () => {
       fetchUser()
       router.push('/')
     } else {
-      console.log('this is user', user)
       toast.error("You're already logged in.", {
         action: {
           label: 'go home',
