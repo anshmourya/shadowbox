@@ -17,12 +17,10 @@ const SinglePoll = ({ poll }) => {
     mutationFn: addVote,
 
     onSuccess: (result) => {
-      queryClient.invalidateQueries({ queryKey: ['polls'] })
-      queryClient.invalidateQueries({ queryKey: ['current votes'] })
       if (result) {
         toast.success('vote has been added')
-        queryClient.invalidateQueries({ queryKey: ['polls'] })
         queryClient.invalidateQueries({ queryKey: ['current votes'] })
+        queryClient.invalidateQueries({ queryKey: ['polls'] })
       } else {
         toast.warning('you have been voted here already')
       }

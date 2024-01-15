@@ -5,7 +5,6 @@ import PageLoader from '../loader/PageLoader'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 const PrivatePage = (Component) => {
-  debugger
   return function PrivatePageComponent(props) {
     const queryClient = useQueryClient()
     const router = useRouter()
