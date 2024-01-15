@@ -30,9 +30,10 @@ const Signin = () => {
 
   const onSubmit = async (data) => {
     if (!user) {
-      await createSession(data.name, data.password)
-      fetchUser()
-      router.push('/')
+      if (await createSession(data.name, data.password)) {
+        fetchUser()
+        router.push('/')
+      }
     } else {
       toast.error("You're already logged in.", {
         action: {

@@ -7,7 +7,7 @@ export const Auth = createContext()
 
 export const AuthProvider = ({ children }) => {
   const { getCurrentUser } = useAccount()
-
+  const a = 'dddd'
   const {
     isLoading,
     error,
@@ -17,11 +17,11 @@ export const AuthProvider = ({ children }) => {
     queryKey: ['user'],
     queryFn: getCurrentUser,
     cacheTime: Infinity,
-    refetchOnWindowFocus: false,  
+    refetchOnWindowFocus: false,
   })
 
   return (
-    <Auth.Provider value={{ isLoading, error, user, fetchUser }}>
+    <Auth.Provider value={{ isLoading, error, user, fetchUser, a }}>
       {children}
     </Auth.Provider>
   )

@@ -14,14 +14,22 @@ export const useAccount = () => {
 
   const createSession = async (name, password) => {
     try {
-      const sessionCreation = await account.createEmailSession(
-        name.concat('@gmail.com'),
-        password,
-      )
-      return sessionCreation
+      await account.createEmailSession(name.concat('@gmail.com'), password)
+      return true
     } catch (error) {
       console.error(error)
-      throw error
+      if (error.code === 401) {
+        toast.error(
+          'Invalid credentials. Please check the username and password.',
+        )
+      } else if (error.code === 429) {
+        toast.error(
+          'Too Many Requests has been received, please try again later.',
+        )
+      } else if (error.code === 500) {
+        toast.error('server issue, refresh the page and try again.')
+      }
+      return false
     }
   }
 
@@ -36,10 +44,24 @@ export const useAccount = () => {
       // add user to database after creating the account
       // TODO: even though the data is stored in the database it still returns the error. fix this.
       await addUser(accountCreation.$id, { name: userData.name })
-      return accountCreation
+      return true
     } catch (error) {
-      console.error(error)
-      throw error
+      if (error.code === 401) {
+        toast.error(
+          'Invalid credentials. Please check the username and password.',
+        )
+      } else if (error.code === 429) {
+        toast.error(
+          'Too Many Requests has been received, please try again later.',
+        )
+      } else if (error.code === 500) {
+        toast.error('server issue, refresh the page and try again.')
+      } else if (error.code === 409) {
+        toast.error(
+          ' A user with the same id, username, already exists in this project.',
+        )
+      }
+      return false
     }
   }
   const getCurrentUser = async () => {

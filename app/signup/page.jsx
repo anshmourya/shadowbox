@@ -9,6 +9,7 @@ import { signUpSchema } from '@/constant/validate'
 import { cn } from '@/lib/utils'
 import { useAccount } from '@/hooks/useAccount'
 import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 const Signup = () => {
   const router = useRouter()
   const { createAccount } = useAccount()
@@ -25,11 +26,12 @@ const Signup = () => {
   })
 
   const onSubmit = async (data) => {
-    await createAccount(data)
-    toast.success(
-      'account created successfully. Please signin to use the site.',
-    )
-    router.push('/signin')
+    if (await createAccount(data)) {
+      toast.success(
+        'account created successfully. Please signin to use the site.',
+      )
+      router.push('/signin')
+    }
   }
   return (
     <>
