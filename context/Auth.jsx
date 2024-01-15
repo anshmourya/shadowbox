@@ -7,7 +7,6 @@ export const Auth = createContext()
 
 export const AuthProvider = ({ children }) => {
   const { getCurrentUser } = useAccount()
-  const a = 'dddd'
   const {
     isLoading,
     error,
@@ -26,7 +25,7 @@ export const AuthProvider = ({ children }) => {
   })
 
   return (
-    <Auth.Provider value={{ isLoading, error, user, fetchUser, a }}>
+    <Auth.Provider value={{ isLoading, error, user, fetchUser }}>
       {children}
     </Auth.Provider>
   )

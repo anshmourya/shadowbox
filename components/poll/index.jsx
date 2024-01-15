@@ -7,7 +7,9 @@ import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query'
 import { format } from 'date-fns'
 import useVote from '@/hooks/useVote'
 import { toast } from 'sonner'
+import useAuth from '@/context/Auth'
 const SinglePoll = ({ poll }) => {
+  const { user } = useAuth()
   const queryClient = useQueryClient()
   const { addVote, getCurrentUserVotes } = useVote()
   const { mutate: vote } = useMutation({
@@ -28,12 +30,7 @@ const SinglePoll = ({ poll }) => {
     onError: (err) => console.error(err),
   })
 
-  const {
-    data: currentVotes,
-    isError,
-    isLoading,
-    error,
-  } = useQuery({
+  const { data: currentVotes } = useQuery({
     queryKey: ['current votes'],
     queryFn: () => getCurrentUserVotes(),
     enabled: !!user,
