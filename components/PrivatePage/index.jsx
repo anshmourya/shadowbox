@@ -1,14 +1,14 @@
-import { useRouter } from 'next/navigation'
+'use client'
+import { useRouter } from 'next/navigation' // Import from next/router instead of next/navigation
 import { useAccount } from '@/hooks/useAccount'
 import PageLoader from '../loader/PageLoader'
 import { useQuery } from '@tanstack/react-query'
-import useAuth from '@/context/Auth'
-const PrivatePage = (Component) => {
-  const { isLogged } = useAccount()
 
+const PrivatePage = (Component) => {
   return function PrivatePageComponent(props) {
-    const { user: userdata } = useAuth()
     const router = useRouter()
+    const { isLogged } = useAccount()
+
     const {
       data: user,
       isError,
@@ -18,7 +18,6 @@ const PrivatePage = (Component) => {
       queryKey: ['loggedInStatus'],
       queryFn: isLogged,
       cacheTime: Infinity,
-      enabled: !!userdata,
       retry: (failureCount, error) => {
         if (error.code === 401) {
           return 0
