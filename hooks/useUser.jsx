@@ -1,4 +1,4 @@
-import { Client, Databases, ID, Query } from 'appwrite'
+import { Client, Databases } from 'appwrite'
 
 const useUser = () => {
   const databaseId = process.env.NEXT_PUBLIC_DATABASE_ID

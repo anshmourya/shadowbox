@@ -29,18 +29,21 @@ const Signin = () => {
   })
 
   const onSubmit = async (data) => {
-    if (!user) {
-      if (await createSession(data.name, data.password)) {
-        await fetchUser()
-        router.push('/')
-      }
-    } else {
+    if (user) {
+      // User is already logged in
       toast.error("You're already logged in.", {
         action: {
-          label: 'go home',
+          label: 'Go home',
           onClick: () => router.push('/'),
         },
       })
+      return
+    }
+
+    // User is not logged in, proceed with creating a session
+    if (await createSession(data.name, data.password)) {
+      await fetchUser()
+      router.push('/')
     }
   }
   return (

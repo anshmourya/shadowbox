@@ -6,9 +6,7 @@ import usePoll from '@/hooks/usePoll'
 import PageLoader from '@/components/loader/PageLoader'
 import Skeleton from '@/components/skeleton'
 import SinglePoll from '../poll'
-import { useQueryClient } from '@tanstack/react-query'
 const PollList = () => {
-  const queryClient = useQueryClient()
   const { getAllPolls } = usePoll()
 
   const {
@@ -22,7 +20,6 @@ const PollList = () => {
     queryFn: getAllPolls,
     initialPageParam: null,
     getNextPageParam: (lastPage) => lastPage[lastPage.length - 1]?.$id,
-    enabled: !!queryClient.getQueryData(['loggedInStatus']),
   })
 
   if (pollDataErrorStatus) {

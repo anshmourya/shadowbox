@@ -71,12 +71,13 @@ const usePoll = () => {
 
   const updatePoll = async (pollData, pollId) => {
     try {
-      const response = await databases.updateDocument(
+      await databases.updateDocument(
         databaseId,
         pollCollection,
         pollId,
         pollData,
       )
+      return true
     } catch (error) {
       console.error(error)
       throw error

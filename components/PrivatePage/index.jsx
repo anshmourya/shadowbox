@@ -2,10 +2,12 @@
 import { useRouter } from 'next/navigation' // Import from next/router instead of next/navigation
 import { useAccount } from '@/hooks/useAccount'
 import PageLoader from '../loader/PageLoader'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 
 const PrivatePage = (Component) => {
+  debugger
   return function PrivatePageComponent(props) {
+    const queryClient = useQueryClient()
     const router = useRouter()
     const { isLogged } = useAccount()
 
@@ -23,6 +25,7 @@ const PrivatePage = (Component) => {
           return 0
         }
       },
+      enabled: !!queryClient.getQueriesData(['user']),
     })
 
     if (isLoading) return <PageLoader />
