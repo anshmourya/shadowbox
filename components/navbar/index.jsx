@@ -41,7 +41,8 @@ const Navbar = () => {
               </li>
               <li className="flex items-center gap-2 cursor-pointer">
                 <VscAccount />
-                Account
+
+                <Link href="/account">Account</Link>
               </li>
             </ul>
           </PopoverContent>

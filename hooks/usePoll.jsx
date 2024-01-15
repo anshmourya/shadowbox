@@ -5,7 +5,6 @@ const usePoll = () => {
   const { user } = useAuth()
   const databaseId = process.env.NEXT_PUBLIC_DATABASE_ID
   const pollCollection = process.env.NEXT_PUBLIC_POLL_ID
-
   const client = new Client()
   const databases = new Databases(client)
   client
@@ -45,11 +44,24 @@ const usePoll = () => {
     }
   }
 
-  const getUserPoll = async () => {
+  const getUserPoll = async ({ pageParam }) => {
     try {
-      const polls = await databases.listDocuments(databaseId, pollCollection, [
-        Query.equal('userId', user.$id),
-      ])
+      const queryConditions = [
+        Query.limit(25),
+        Query.orderDesc('$createdAt'),
+        Query.equal('user', [user.$id]),
+      ]
+
+      if (pageParam) {
+        queryConditions.push(Query.cursorAfter(pageParam))
+      }
+
+      const polls = await databases.listDocuments(
+        databaseId,
+        pollCollection,
+        queryConditions,
+      )
+
       return polls.documents
     } catch (error) {
       console.error(error)

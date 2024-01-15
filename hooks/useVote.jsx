@@ -14,9 +14,13 @@ const useVote = () => {
 
   const addVote = async (vote) => {
     try {
-      const VoteExist = queryClient
+      const votes = queryClient
         .getQueryData(['current votes'])
-        .some((poll) => poll === vote.poll)
+        .reduce((poll, vote) => {
+          poll.push(vote.poll.$id)
+          return poll
+        }, [])
+      const VoteExist = votes.some((poll) => poll === vote.poll)
 
       //delete if any poll exist for the current user
       if (!VoteExist) {
@@ -62,11 +66,7 @@ const useVote = () => {
 
         [Query.equal('user', [user.$id])],
       )
-
-      return currentUservotes.documents.reduce((poll, vote) => {
-        poll.push(vote.poll.$id)
-        return poll
-      }, [])
+      return currentUservotes.documents
     } catch (error) {
       console.error(error)
       throw new error('cant get user votes, something went wrong...')

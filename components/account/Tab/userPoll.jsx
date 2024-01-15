@@ -1,14 +1,13 @@
 'use client'
 import React from 'react'
-import InfiniteScroll from 'react-infinite-scroll-component'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import usePoll from '@/hooks/usePoll'
 import PageLoader from '@/components/loader/PageLoader'
+import InfiniteScroll from 'react-infinite-scroll-component'
+import SinglePoll from '@/components/poll'
 import Skeleton from '@/components/skeleton'
-import SinglePoll from '../poll'
-const PollList = () => {
-  const { getAllPolls } = usePoll()
-
+const UserPoll = () => {
+  const { getUserPoll } = usePoll()
   const {
     data: pollData,
     error: pollError,
@@ -16,12 +15,11 @@ const PollList = () => {
     fetchNextPage,
     status,
   } = useInfiniteQuery({
-    queryKey: ['polls'],
-    queryFn: getAllPolls,
+    queryKey: ['UserPoll'],
+    queryFn: getUserPoll,
     initialPageParam: null,
     getNextPageParam: (lastPage) => lastPage[lastPage.length - 1]?.$id,
   })
-
   if (pollDataErrorStatus) {
     console.error(pollError)
     throw new Error("can't get the polls, something went wrong.")
@@ -29,10 +27,10 @@ const PollList = () => {
   if (status == 'pending') {
     return <PageLoader />
   }
+
   const polls = pollData.pages.reduce((acc, page) => {
     return [...acc, ...page]
   }, [])
-
   const lastPage = pollData.pages[pollData.pages.length - 1].length > 0
   return (
     <>
@@ -51,4 +49,4 @@ const PollList = () => {
   )
 }
 
-export default PollList
+export default UserPoll
