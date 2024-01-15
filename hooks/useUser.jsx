@@ -1,5 +1,5 @@
 import { Client, Databases, ID, Query } from 'appwrite'
-import { isResSent } from 'next/dist/shared/lib/utils'
+
 const useUser = () => {
   const databaseId = process.env.NEXT_PUBLIC_DATABASE_ID
   const userCollection = process.env.NEXT_PUBLIC_USER_ID
@@ -25,7 +25,15 @@ const useUser = () => {
     }
   }
 
-  return { addUser }
+  const getUerDetail = async (userId) => {
+    try {
+      return await databases.getDocument(databaseId, userCollection, userId)
+    } catch (error) {
+      console.error(error)
+      throw new Error("Couldn't get user details from database.")
+    }
+  }
+  return { addUser, getUerDetail }
 }
 
 export default useUser
