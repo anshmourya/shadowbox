@@ -31,7 +31,7 @@ const Signin = () => {
   const onSubmit = async (data) => {
     if (!user) {
       if (await createSession(data.name, data.password)) {
-        fetchUser()
+        await fetchUser()
         router.push('/')
       }
     } else {
