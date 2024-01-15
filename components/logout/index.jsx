@@ -15,7 +15,9 @@ const Logout = () => {
     const sessionEnd = await logout()
     if (sessionEnd) {
       await queryClient.resetQueries(['user'])
+      await queryClient.resetQueries(['loggedInStatus'])
       queryClient.removeQueries(['user'])
+      queryClient.removeQueries(['loggedInStatus'])
       router.push('/signin')
     } else {
       toast.error('something went wrong...')

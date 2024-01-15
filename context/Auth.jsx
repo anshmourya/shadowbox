@@ -18,6 +18,11 @@ export const AuthProvider = ({ children }) => {
     queryFn: getCurrentUser,
     cacheTime: Infinity,
     refetchOnWindowFocus: false,
+    retry: (failureCount, error) => {
+      if (error.code === 401) {
+        return 0
+      }
+    },
   })
 
   return (
