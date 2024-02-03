@@ -8,8 +8,6 @@ import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 
 const Profile = () => {
-
-
   return (
     <>
       <div className="relative">
